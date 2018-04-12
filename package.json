@@ -1,0 +1,16 @@
+{
+  "name": "vorspiel-facade",
+  "version": "1.0.0",
+  "description": "Public API endpoint",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Sebastian Jørgensen <sj@invokit.dk>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "passport": "^0.4.0",
+    "passport-steam": "^1.0.9"
+  }
+}
