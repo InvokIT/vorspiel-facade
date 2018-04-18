@@ -2,12 +2,6 @@
 
 
 [[projects]]
-  name = "github.com/dgrijalva/jwt-go"
-  packages = ["."]
-  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
-  version = "v3.2.0"
-
-[[projects]]
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   revision = "925541529c1fa6821df4e44ce2723319eb2be768"
@@ -32,9 +26,28 @@
   version = "v1.0"
 
 [[projects]]
+  name = "github.com/gorilla/securecookie"
+  packages = ["."]
+  revision = "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983"
+  version = "v1.1.1"
+
+[[projects]]
+  name = "github.com/gorilla/sessions"
+  packages = ["."]
+  revision = "ca9ada44574153444b00d3fd9c8559e4cc95f896"
+  version = "v1.1"
+
+[[projects]]
+  name = "github.com/joho/godotenv"
+  packages = ["."]
+  revision = "a79fa1e548e2c689c241d10173efd51e5d689d5b"
+  version = "v1.2.0"
+
+[[projects]]
   name = "github.com/markbates/goth"
   packages = [
     ".",
+    "gothic",
     "providers/steam"
   ]
   revision = "4933f155d89c3c52ab4ca545c6602cf4a1e87913"
@@ -75,6 +88,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6f10a482689100d04c03a67eaa5eed5c0122c2a5e2e3f1b9f8fe8df2a47682ae"
+  inputs-digest = "d6650b7f8c78bba061139ce0e3dbcefbb72c0cce08a6afa04b1582033854bac3"
   solver-name = "gps-cdcl"
   solver-version = 1
