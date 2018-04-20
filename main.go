@@ -2,17 +2,15 @@ package main
 
 import (
 	//"encoding/json"
-	"fmt"
-	"net/http"
+	//"fmt"
 	"os"
 
 	//jwt "github.com/dgrijalva/jwt-go"
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/steam"
 	"github.com/joho/godotenv"
+	"github.com/invokit/vorspiel-lib/mq"
+	googlemq "github.com/invokit/vorspiel-lib/google/mq"
 )
 
-const defaultAddress = ":8080"
 const defaultPublicUrl = "http://localhost:8080"
 
 func main() {
@@ -20,23 +18,20 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	initAuth()
-
-	router := CreateRouter()
-	fmt.Printf("Listening on address %s\n", defaultAddress)
-	logger.Fatal(http.ListenAndServe(defaultAddress, router))
-}
-
-func initAuth() {
 	publicUrl := defaultPublicUrl
 	if v, ok := os.LookupEnv("PUBLIC_URL"); ok {
 		publicUrl = v
 	}
 
-	steamKey := os.Getenv("STEAM_KEY")
-	if steamKey == "" {
-		logger.Panic("STEAM_KEY is not defined.")
-	}
+	router := BuildRouter()
+	mq = BuildMq()
 
-	goth.UseProviders(steam.New(os.Getenv("STEAM_KEY"), fmt.Sprintf("%s/auth/steam/callback", publicUrl)))
+	app := &App{Port: 8080, PublicUrl: publicUrl, MQ: mq, Router: router}
+
+	app.Start()
+}
+
+func buildMq() *mq.Client {
+	mq := googlemq.New()
+	return mq
 }

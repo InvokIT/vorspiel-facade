@@ -8,7 +8,7 @@ import (
 	"github.com/markbates/goth/gothic"
 )
 
-func CreateRouter() (*pat.Router) {
+func BuildRouter() (*pat.Router) {
   r := pat.New()
 	r.Get("/auth/{provider}/callback", authCallbackHandler)
 	r.Get("/logout/{provider}", logoutHandler)

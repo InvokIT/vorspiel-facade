@@ -2,15 +2,16 @@ package main
 
 import (
   "testing"
+  "github.com/markbates/goth"
 )
 
-func TestUserCopyFrom(t *testing.T) {
-  newValues := struct{
-	  NickName string
-	  Name string
-  }{
-  	"TestUser",
-  	"Test User",
+func TestUserCopyValuesFromGothUser(t *testing.T) {
+  gothUser := goth.User{
+  	NickName: "TestUser",
+  	Name: "Test User",
+    FirstName: "Firstname",
+    LastName: "Lastname",
+    AvatarURL: "http://example.com/newavatar.png",
   }
 
   user := &User{
@@ -21,14 +22,33 @@ func TestUserCopyFrom(t *testing.T) {
   	"http://example.com/oldavatar.png",
   }
 
-  user.CopyFrom(newValues)
+  user.CopyValuesFrom(gothUser)
+
   if user.Id != "testUserId" {
   	t.Errorf("Id was changed, expected '%s' got '%s'.", "testUserId", user.Id)
   }
-  if user.NickName != newValues.NickName {
-  	t.Errorf("user.NickName != newValues.NickName, expected '%s' got '%s'", newValues.NickName, user.NickName)
+
+  if user.NickName != gothUser.NickName {
+  	t.Errorf("user.NickName != gothUser.NickName, expected '%s' got '%s'", gothUser.NickName, user.NickName)
   }
-  if user.Name != newValues.Name {
-	  t.Errorf("user.Name != newValues.Name, expected '%s' got '%s'", newValues.Name, user.Name)
+
+  if user.Name != gothUser.Name {
+	  t.Errorf("user.Name != gothUser.Name, expected '%s' got '%s'", gothUser.Name, user.Name)
+  }
+
+  if user.AvatarURL != gothUser.AvatarURL {
+    t.Errorf("Expected '%s' got '%s'", gothUser.AvatarURL, user.AvatarURL)
+  }
+
+  gothUser = goth.User{
+    FirstName: "Firstname",
+    LastName: "Lastname",
+  }
+
+  user.CopyValuesFrom(gothUser)
+
+  expectedName := gothUser.FirstName + " " + gothUser.LastName
+  if user.Name != expectedName {
+	  t.Errorf("Expected '%s' got '%s'", expectedName, user.Name)
   }
 }

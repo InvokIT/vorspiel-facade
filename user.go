@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"github.com/markbates/goth"
 )
 
 type User struct {
@@ -13,50 +14,25 @@ type User struct {
 	AvatarURL string
 }
 
-// TODO Merge all these into one struct
-type NickNameHolder struct {
-	NickName string
-}
-
-type NameHolder struct {
-	Name string
-}
-
-type FirstAndLastNameHolder struct {
-	FirstName string
-	LastName string
-}
-
-type EmailHolder struct {
-	Email string
-}
-
-type AvatarURLHolder struct {
-	AvatarURL string
-}
-
-func (user *User) CopyFrom(source interface{}) {
-	if s, ok := source.(NickNameHolder); ok {
+func (user *User) CopyValuesFrom(s goth.User) {
+	if s.NickName != "" {
 		user.NickName = s.NickName
-	} else {
-		logger.Print("source did not cast to NickNameHolder")
 	}
 
-	if s, ok := source.(NameHolder); ok && s.Name != "" {
+	switch {
+	case s.Name != "":
 		user.Name = s.Name
-	}
-
-	if s, ok := source.(FirstAndLastNameHolder); ok {
+	case s.FirstName != "" || s.LastName != "":
 		if n := strings.TrimSpace(fmt.Sprintf("%s %s", s.FirstName, s.LastName)); n != "" {
 			user.Name = n
 		}
 	}
 
-	if s, ok := source.(EmailHolder); ok && s.Email != "" {
+	if s.Email != "" {
 		user.Email = s.Email
 	}
 
-	if s, ok := source.(AvatarURLHolder); ok && s.AvatarURL != "" {
+	if s.AvatarURL != "" {
 		user.AvatarURL = s.AvatarURL
 	}
 }
