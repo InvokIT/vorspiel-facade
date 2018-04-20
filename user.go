@@ -13,6 +13,7 @@ type User struct {
 	AvatarURL string
 }
 
+// TODO Merge all these into one struct
 type NickNameHolder struct {
 	NickName string
 }
@@ -37,13 +38,16 @@ type AvatarURLHolder struct {
 func (user *User) CopyFrom(source interface{}) {
 	if s, ok := source.(NickNameHolder); ok {
 		user.NickName = s.NickName
+	} else {
+		logger.Print("source did not cast to NickNameHolder")
 	}
 
-	switch {
-	case s, ok := source.(NameHolder); ok && s.Name != "":
+	if s, ok := source.(NameHolder); ok && s.Name != "" {
 		user.Name = s.Name
-	case s, ok := source.(FirstAndLastNameHolder); ok:
-		if n := strings.TrimSpace(fmt.Sprintf("%s %s", source.FirstName, source.LastName)); n != "" {
+	}
+
+	if s, ok := source.(FirstAndLastNameHolder); ok {
+		if n := strings.TrimSpace(fmt.Sprintf("%s %s", s.FirstName, s.LastName)); n != "" {
 			user.Name = n
 		}
 	}

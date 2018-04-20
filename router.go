@@ -1,10 +1,11 @@
 package main
 
 import (
-  "net/http"
-  "fmt"
-  "github.com/gorilla/pat"
-  "github.com/markbates/goth/gothic"
+	"fmt"
+	"net/http"
+
+	"github.com/gorilla/pat"
+	"github.com/markbates/goth/gothic"
 )
 
 func CreateRouter() (*pat.Router) {

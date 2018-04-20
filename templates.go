@@ -15,7 +15,7 @@ func init() {
 func loadTemplate(path string) *template.Template {
   tmpl, err := template.ParseFiles(path)
   if err != nil {
-    Logger.Panic(err)
+    logger.Panic(err)
   }
 
   return tmpl
