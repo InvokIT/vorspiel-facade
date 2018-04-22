@@ -19,7 +19,7 @@ import (
 type App struct {
   Port uint16
   PublicUrl string
-  MQ *mq.Client
+  MQ mq.Client
   Router *pat.Router
 }
 

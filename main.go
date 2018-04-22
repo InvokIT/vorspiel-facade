@@ -7,15 +7,13 @@ import (
 
 	//jwt "github.com/dgrijalva/jwt-go"
 	"github.com/joho/godotenv"
-	"github.com/invokit/vorspiel-lib/mq"
-	googlemq "github.com/invokit/vorspiel-lib/google/mq"
 )
 
 const defaultPublicUrl = "http://localhost:8080"
 
 func main() {
 	if err := godotenv.Load(); err != nil && !os.IsNotExist(err) {
-		logger.Fatal(err)
+		logger.Printf("error when loading .env: %s", err)
 	}
 
 	publicUrl := defaultPublicUrl
@@ -24,14 +22,12 @@ func main() {
 	}
 
 	router := BuildRouter()
-	mq = BuildMq()
+	mq, err := BuildMq()
+	if err != nil {
+		logger.Fatalf("error when building mq client: %s", err)
+	}
 
 	app := &App{Port: 8080, PublicUrl: publicUrl, MQ: mq, Router: router}
 
 	app.Start()
-}
-
-func buildMq() *mq.Client {
-	mq := googlemq.New()
-	return mq
 }
